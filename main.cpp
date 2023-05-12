@@ -76,7 +76,7 @@ void ejemplo_lambda_capture() {
 
     int calculo_aritmetico_lambda(function_type_cnt& cnt_fns,
                        int a, int b,
-                       auto fn_total = [](int a, int b) {return a + b; },
+                       function<int(int, int)> fn_total = [](int a, int b) {return a + b; },
                        int initial = 0)
                        {
     int total = initial;
@@ -85,8 +85,6 @@ void ejemplo_lambda_capture() {
         total = fn_total(total, fn(a, b));
     return total;
 }
-
-
 
 void ejemplo_vector_puntero_funciones_lambda() {
     function_type_cnt v1;
@@ -99,12 +97,29 @@ void ejemplo_vector_puntero_funciones_lambda() {
     cout << total << endl;
 }
 
+void ejemplo_usando_function_type() {
+    int (*ptr_sumar_1)(int, int) = nullptr;
+    function<int(int, int)> fn_sumar_2;
+    ptr_sumar_1 = sumar;
+    fn_sumar_2 = sumar;
+    cout << ptr_sumar_1(10, 20) << endl;
+    cout << fn_sumar_2(10, 20) << endl;
+}
 
+struct Sumar {
+    int operator()(int a, int b) { return a + b; }
+};
 
+void ejemplo_functor() {
+    Sumar functor_sumar;
+    cout << functor_sumar(10, 20) << endl;
+}
 
 int main() {
 //    ejemplo_puntero_funcion();
 //    ejemplo_vector_puntero_funciones();
-    ejemplo_lambda_capture();
+//    ejemplo_lambda_capture();
+//    ejemplo_usando_function_type();
+    ejemplo_functor();
     return 0;
 }
